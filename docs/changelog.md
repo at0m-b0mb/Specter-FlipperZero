@@ -1,18 +1,38 @@
 # Changelog
 
+## 3.1.1
+
+One fix, reported within the hour by the first person to watch the thing boot.
+
+- **Fix: the boot intro flashed the whole screen black.** The "contact" beat -
+  the moment the poll is found - inverted all 128x64 for two ticks. It was
+  reported as a bug, and that is the right verdict: a panel going entirely
+  black during startup does not read as emphasis, it reads as the display
+  glitching or the app crashing, which is a terrible thing for an intro to
+  imply about a tool you are about to trust. Only the band the carrier lives in
+  inverts now - rows 34-52, clear of everything drawn at that moment. Same
+  beat, same meaning, unmistakably part of the drawing rather than part of the
+  hardware.
+
+  The general lesson is worth keeping: on a screen this small, **an effect that
+  covers everything is indistinguishable from a fault**. Emphasis has to be
+  local to the thing being emphasised, or it stops being emphasis.
+
+Off-device, in the same pass: the README and the project site were each showing
+several captures twice (a contact sheet plus the same screens again as per-mode
+stills), and the site's Didone headings were pinned to a sturdier optical size
+because a hairline on true black stops being a thin line and starts being an
+intermittent one.
+
 ## 3.1
 
 A boot intro, a real capture pipeline, and the end of the mock-ups.
 
 - **New: a boot intro.** Specter now opens by drawing itself. A trace writes
   across the screen from the left, flat and silent - what a clean room looks
-  like on this instrument - then a reader's poll cuts in, the carrier band
-  inverts for a fifth of a second, and the SPECTER nameplate engraves itself a
-  letter at a time. (The first cut of this inverted the *whole screen* for that
-  beat, and the first person to see it reported it as a bug - a 128x64 panel
-  going entirely black during startup does not read as emphasis, it reads as
-  the app crashing. Inverting only the band the carrier lives in says the same
-  thing and unmistakably belongs to the drawing.) The inversion is deliberately the same gesture the Sweep screen
+  like on this instrument - then a reader's poll cuts in, the screen inverts
+  for a fifth of a second, and the SPECTER nameplate engraves itself a letter
+  at a time. The inversion is deliberately the same gesture the Sweep screen
   makes when it locks on, so the intro and the instrument share a vocabulary,
   and the waveform is generated from `SPECTER_FULL_SCALE_DUTY` - the duty cycle
   the whole meter is scaled against - rather than from a shape that merely

@@ -72,29 +72,23 @@
   <sub>A sweep, start to finish: quiet room → closing in → locked on → <b>what</b> it is → the room's verdict.</sub>
 </p>
 
-### It opens by drawing itself
+### The screens no single mode owns
 
 <p align="center">
-  <img src="images/splash.gif" width="46%" alt="Specter's boot intro: a flat trace writes across the screen, a reader's poll cuts in, the screen inverts, and the SPECTER nameplate engraves itself a letter at a time">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="images/screens-dark.png">
+    <img src="images/screens.png" width="100%" alt="The boot intro, main menu, Sweep listening, Fingerprint with nothing there, a Site Survey walking, Watch with a contact logged, the Logbook and Settings — all captured from a real Flipper Zero">
+  </picture>
 </p>
 <p align="center">
   <sub>
-    Silence, then contact, then the nameplate. The inverted beat is the same
-    gesture Sweep makes when it locks on, and the waveform is drawn at
-    <code>SPECTER_FULL_SCALE_DUTY</code> — the duty cycle the whole meter is
-    scaled against. Any key skips it; <b>Settings → Intro</b> turns it off.
-  </sub>
-</p>
-
-<p align="center">
-  <sub>
-    <b>Every image in this README is a capture off a real device</b>, taken over
-    the Flipper's own RPC session by <code>tools_screenshot.py</code>. There is
-    no mockup renderer in this project any more — a drawing of the UI is a
-    second implementation of it, and it disagreed with the firmware while
-    looking perfectly convincing (see <a href="docs/changelog.md">3.0.1</a>).
-    Every screen at once, including the ones no single mode owns, is on the
-    <a href="https://at0m-b0mb.github.io/Specter-FlipperZero/#screens">project site</a>.
+    The quiet states and the intro — the four modes below each carry their own
+    capture, so these are the ones they do not. <b>Every image
+    in this README is a capture off a real device</b>, taken over the Flipper's
+    own RPC session by <code>tools_screenshot.py</code>. There is no mockup
+    renderer in this project any more — a drawing of the UI is a second
+    implementation of it, and it disagreed with the firmware while looking
+    perfectly convincing (see <a href="docs/changelog.md">3.0.1</a>).
   </sub>
 </p>
 
@@ -587,7 +581,8 @@ the meter reads 100%. One number, two independent reasons to be it.
 | `images/mark-180/64/32/16.png` | as named | 180 and 64 downscaled; **32 and 16 are drawn natively** so nothing anti-aliases into mush |
 | `images/demo.gif` | 384×192 | A scripted walk through every mode, **recorded off the device** — `tools_screenshot.py --tour-gif` |
 | `images/splash.gif` | 384×192 | The boot intro, recorded from the launch request onwards — `--splash` |
-| `images/screens.png` | — | Contact sheet of the captures, rebuilt by `--sheet` |
+| `images/screens.png` | — | Contact sheet of the captures, light ground, rebuilt by `--sheet` |
+| `images/screens-dark.png` | — | The same sheet on true black, served by `<picture>` to dark-mode readers |
 | `screenshots/*.png` | 512×256 | **Every screen, captured off a real device** over RPC. Exactly two colours: the panel's own. |
 
 ```bash

@@ -450,10 +450,24 @@ def two_colours_only(path):
 
 
 # ------------------------------------------------------------------- sheet ---
+# The sheet ships in BOTH themes, served by <picture>, exactly as the banner
+# does. A single light sheet is a glaring white slab in the middle of a dark
+# README - and a single dark one is the same problem inverted. The device
+# captures inside it are untouched either way: they are already the only two
+# colours they are allowed to be.
 PAPER = (243, 241, 236)
-INK = (26, 23, 20)
-MUTED = (107, 98, 87)
-RULE = (224, 218, 206)
+INK = (22, 19, 13)
+MUTED = (87, 82, 74)
+RULE = (217, 212, 200)
+
+BLACK = (0, 0, 0)
+ASH = (169, 162, 154)
+SCORE = (42, 39, 36)
+
+SHEET_THEMES = {
+    "light": dict(ground=PAPER, label=MUTED, rule=RULE, suffix=""),
+    "dark": dict(ground=BLACK, label=ASH, rule=SCORE, suffix="-dark"),
+}
 
 
 def _sheet_font(size, mono=True):
@@ -470,9 +484,8 @@ def _sheet_font(size, mono=True):
     return ImageFont.load_default()
 
 
-def contact_sheet(names, out=None, cols=3, scale=2):
-    """Compose captured shots into images/screens.png for the README."""
-    out = out or os.path.join(IMAGES, "screens.png")
+def contact_sheet(names, cols=3, scale=2):
+    """Compose captured shots into images/screens{,-dark}.png for the README."""
     tiles = []
     for name, label in names:
         p = os.path.join(SHOTS, f"{name}.png")
@@ -489,21 +502,22 @@ def contact_sheet(names, out=None, cols=3, scale=2):
     W = pad * 2 + cols * tw + (cols - 1) * gut
     H = pad * 2 + rows * (th + cap) + (rows - 1) * gut
 
-    sheet = Image.new("RGB", (W, H), PAPER)
-    d = ImageDraw.Draw(sheet)
+    os.makedirs(IMAGES, exist_ok=True)
     f = _sheet_font(13)
 
-    for i, (tile, label) in enumerate(tiles):
-        r, c = divmod(i, cols)
-        x = pad + c * (tw + gut)
-        y = pad + r * (th + cap + gut)
-        d.rectangle([x - 1, y - 1, x + tw, y + th], outline=RULE)
-        sheet.paste(tile.resize((tw, th), Image.NEAREST), (x, y))
-        d.text((x, y + th + 9), label, font=f, fill=MUTED)
-
-    os.makedirs(IMAGES, exist_ok=True)
-    sheet.save(out)
-    print(f"wrote {os.path.relpath(out, HERE)}  ({W}x{H}, {len(tiles)} screens)")
+    for theme in SHEET_THEMES.values():
+        sheet = Image.new("RGB", (W, H), theme["ground"])
+        d = ImageDraw.Draw(sheet)
+        for i, (tile, label) in enumerate(tiles):
+            r, c = divmod(i, cols)
+            x = pad + c * (tw + gut)
+            y = pad + r * (th + cap + gut)
+            d.rectangle([x - 1, y - 1, x + tw, y + th], outline=theme["rule"])
+            sheet.paste(tile.resize((tw, th), Image.NEAREST), (x, y))
+            d.text((x, y + th + 9), label, font=f, fill=theme["label"])
+        out = os.path.join(IMAGES, f"screens{theme['suffix']}.png")
+        sheet.save(out)
+        print(f"wrote {os.path.relpath(out, HERE)}  ({W}x{H}, {len(tiles)} screens)")
 
 
 # ------------------------------------------------------------------- drive ---
@@ -634,16 +648,23 @@ TOUR = [
 ]
 
 # What goes on the README contact sheet, in reading order.
+# The COMPLEMENT of the per-mode stills in the README, deliberately. The four
+# mode sections each already carry their own hero capture in context, and a
+# sheet that repeats them is just the same screens twice on one page. These are
+# the ones no mode section owns: the quiet states, the intro, and the key map.
 SHEET = [
+    ("splash", "Boot intro"),
     ("menu", "Main menu"),
     ("sweep_idle", "Sweep - listening"),
-    ("sweep_reader", "Sweep - reader found"),
-    ("fingerprint_reader", "Fingerprint - cadence"),
-    ("survey_done", "Site Survey - verdict"),
-    ("watch_reader", "Watch - contact"),
+    ("fingerprint", "Fingerprint - nothing there"),
+    ("survey_run", "Site Survey - walking"),
+    ("watch_quiet", "Watch - a contact logged"),
     ("logbook", "Logbook"),
     ("settings", "Settings"),
-    ("about", "Help & About"),
+    # Help & About is deliberately absent: it prints the version number, which
+    # makes it the one capture guaranteed to be wrong by the next release. Same
+    # reason the tour GIF does not visit it. The key map it shows is written out
+    # in the README's Controls section, where it does not go stale.
 ]
 
 # The six the Flipper Apps Catalog manifest points at, by the names it uses.
