@@ -144,6 +144,18 @@ def paste_capture(out, name, x, y, scale):
     return cap.size
 
 
+# --- what the device printed on the capture ---------------------------------
+# Read off screenshots/ss2.png by eye, because the firmware's own readouts are
+# rendered as pixels and there is nothing to parse. They exist as the
+# cross-check for the waveform extracted from that same image: if a re-shoot
+# moves the measured duty more than a few points from DEVICE_UP_PCT, series()
+# refuses to build rather than print a figure that disagrees with the screen it
+# is standing next to. Update these together with the capture, never alone.
+DEVICE_CLASS = "POLLING"
+DEVICE_PERIOD_MS = 39  # "PER 39ms"
+DEVICE_UP_PCT = 28  # "UP 28%"
+
+
 def series():
     """The recorded carrier, plus the device's own printed duty for cross-check."""
     bits, hi, lo = carrier_from_capture()
@@ -155,8 +167,8 @@ def series():
     edges = sum(1 for i in range(1, len(bits)) if bits[i] != bits[i - 1])
     if edges < 12:
         raise SystemExit(f"only {edges} edges in the capture - not enough polls to show a cadence")
-    # UP 27% is printed on that same screen by the firmware's own duty counter.
-    device_up = 27
+    # The duty counter printed on that same screen by the firmware itself.
+    device_up = DEVICE_UP_PCT
     if abs(duty - device_up) > 4:
         raise SystemExit(f"trace duty {duty:.1f}% has drifted from the device's {device_up}%")
     info = dict(bits=bits, hi=hi, lo=lo, duty=round(duty, 1), edges=edges,
@@ -212,7 +224,7 @@ def render_banner(path, theme, W=2560, H=800, SS=2):
 
     text(d, L, u(372), "github.com/at0m-b0mb/Specter-FlipperZero", f_foot, t["second"], u(2))
     text(d, R, u(372),
-         f"POLLING · PER 40 ms · UP {info['device_up']}% DEVICE · "
+         f"{DEVICE_CLASS} · PER {DEVICE_PERIOD_MS} ms · UP {info['device_up']}% DEVICE · "
          f"{round(info['duty'])}% THIS TRACE · v{info['version']}",
          f_foot, t["second"], u(2), anchor="rs")
 
