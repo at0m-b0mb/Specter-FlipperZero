@@ -86,11 +86,6 @@
   </sub>
 </p>
 
-### Every screen
-
-<p align="center">
-  <img src="images/screens.png" width="100%" alt="Specter screens, captured from a real Flipper Zero">
-</p>
 <p align="center">
   <sub>
     <b>Every image in this README is a capture off a real device</b>, taken over
@@ -98,6 +93,8 @@
     no mockup renderer in this project any more — a drawing of the UI is a
     second implementation of it, and it disagreed with the firmware while
     looking perfectly convincing (see <a href="docs/changelog.md">3.0.1</a>).
+    Every screen at once, including the ones no single mode owns, is on the
+    <a href="https://at0m-b0mb.github.io/Specter-FlipperZero/#screens">project site</a>.
   </sub>
 </p>
 

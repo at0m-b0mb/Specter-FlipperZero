@@ -920,8 +920,36 @@ def tour_gif(f, name="demo", fps=10, scale=3):
             f.press(k, settle=0.0)
             grab(0.45)
 
-    restart_app(f)
-    grab(2.2, "main menu")
+    # Open on the boot intro rather than waiting it out. The GIF is meant to be
+    # the app being used, and the first thing using it does is play that - so
+    # starting after it is over throws away the one screen written specifically
+    # to be watched. Captured the only way it can be: over RPC, where the screen
+    # stream stays up across the launch.
+    for _ in range(7):
+        f.press("back", settle=0.2)
+    f.idle(0.5)
+    f.flush()
+    f.app_start(FAP_PATH)
+    print("    [boot intro]", flush=True)
+    end = time.time() + 2.9
+    seen_app = False
+    while time.time() < end:
+        d = f._await_frame(0.5)
+        if d is None:
+            continue
+        img = to_image(d)
+        # Drop the Flipper desktop's own frames by content: its dolphin art is a
+        # large dark scene. Only until the app has painted once - the intro
+        # itself goes briefly dark in the carrier band, and an ink test applied
+        # throughout would cut exactly the frames worth keeping.
+        if not seen_app:
+            if ink_fraction(img) >= 0.40:
+                continue
+            seen_app = True
+        frames.append(img)
+    f.idle(0.4)
+
+    grab(2.0, "main menu")
 
     # -- Sweep: the hunt ----------------------------------------------------
     step("ok")

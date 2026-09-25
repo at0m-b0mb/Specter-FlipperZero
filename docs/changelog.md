@@ -6,9 +6,13 @@ A boot intro, a real capture pipeline, and the end of the mock-ups.
 
 - **New: a boot intro.** Specter now opens by drawing itself. A trace writes
   across the screen from the left, flat and silent - what a clean room looks
-  like on this instrument - then a reader's poll cuts in, the screen inverts
-  for a fifth of a second, and the SPECTER nameplate engraves itself a letter
-  at a time. The inversion is deliberately the same gesture the Sweep screen
+  like on this instrument - then a reader's poll cuts in, the carrier band
+  inverts for a fifth of a second, and the SPECTER nameplate engraves itself a
+  letter at a time. (The first cut of this inverted the *whole screen* for that
+  beat, and the first person to see it reported it as a bug - a 128x64 panel
+  going entirely black during startup does not read as emphasis, it reads as
+  the app crashing. Inverting only the band the carrier lives in says the same
+  thing and unmistakably belongs to the drawing.) The inversion is deliberately the same gesture the Sweep screen
   makes when it locks on, so the intro and the instrument share a vocabulary,
   and the waveform is generated from `SPECTER_FULL_SCALE_DUTY` - the duty cycle
   the whole meter is scaled against - rather than from a shape that merely

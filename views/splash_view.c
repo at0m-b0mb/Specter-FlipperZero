@@ -33,10 +33,24 @@
 #define SPLASH_DONE_TICKS  22u
 #define SPLASH_WRITE_TICKS 9u // ticks the write head takes to cross the screen
 
-/* The beat where the poll is found. Two ticks of inverted screen - one is below
- * the threshold of noticing, three starts to feel like a fault. */
+/* The beat where the poll is found: the carrier band inverts for two ticks.
+ *
+ * It used to invert the WHOLE SCREEN, and that was wrong - not subtly wrong,
+ * reported-as-a-bug wrong. A 128x64 panel going entirely black for a fifth of
+ * a second during startup does not read as emphasis, it reads as the display
+ * glitching or the app crashing, which is a terrible thing for an intro to
+ * imply about a tool you are about to trust. Inverting only the band the
+ * carrier lives in says the same thing - the instrument just registered
+ * something - and unmistakably belongs to the drawing rather than to the
+ * hardware. */
 #define SPLASH_CONTACT_TICK 4u
 #define SPLASH_CONTACT_LEN  2u
+
+/* The inverted band. Sits clear of everything drawn at that moment: the rule
+ * on row 30 has rows 31-33 blank below it, and nothing else exists yet (the
+ * nameplate starts at tick 6, the tagline at 13). */
+#define SPLASH_BAND_TOP 34
+#define SPLASH_BAND_H   19
 
 #define SPLASH_NAME_TICK 6u // nameplate starts engraving
 #define SPLASH_RULE_TICK 9u // rule starts growing
@@ -114,7 +128,7 @@ static void splash_draw_trace(Canvas* canvas, int written, int drift) {
     }
 }
 
-static void splash_draw_content(Canvas* canvas, uint8_t a) {
+static void splash_draw_content(Canvas* canvas, uint8_t a, bool flash) {
     /* (a + 1) so the very first frame already has a stub of line on it. At a*k
      * the intro opens on a completely blank screen for one tick, which on
      * hardware reads as the app having failed to start. */
@@ -123,7 +137,16 @@ static void splash_draw_content(Canvas* canvas, uint8_t a) {
 
     int drift = 0;
     if(a >= SPLASH_DRIFT_TICK) drift = (int)((a - SPLASH_DRIFT_TICK) * 3u);
+
+    /* There is no global invert on this canvas: filling the band and drawing
+     * the trace white is the only way to do it, so the two have to be paired
+     * here rather than wrapped around the whole draw. */
+    if(flash) {
+        canvas_draw_box(canvas, 0, SPLASH_BAND_TOP, 128, SPLASH_BAND_H);
+        canvas_set_color(canvas, ColorWhite);
+    }
     splash_draw_trace(canvas, written, drift);
+    if(flash) canvas_set_color(canvas, ColorBlack);
 
     /* The presence indicator, in the same place and the same shapes the four
      * measurement screens use: hollow while nothing is there, filled once the
@@ -167,19 +190,8 @@ static void splash_draw_content(Canvas* canvas, uint8_t a) {
 static void splash_view_draw(Canvas* canvas, void* model) {
     SplashModel* m = model;
     uint8_t a = m->anim;
-
-    /* The contact beat. Painting the ground black and drawing everything in
-     * white is the only way to invert on this canvas - there is no global
-     * invert - so the content is factored out to be drawn either way round. */
     bool flash = a >= SPLASH_CONTACT_TICK && a < SPLASH_CONTACT_TICK + SPLASH_CONTACT_LEN;
-    if(flash) {
-        canvas_draw_box(canvas, 0, 0, 128, 64);
-        canvas_set_color(canvas, ColorWhite);
-    }
-
-    splash_draw_content(canvas, a);
-
-    if(flash) canvas_set_color(canvas, ColorBlack);
+    splash_draw_content(canvas, a, flash);
 }
 
 static bool splash_view_input(InputEvent* event, void* context) {

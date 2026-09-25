@@ -41,16 +41,16 @@
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --paper:#000000; --card:#0B0B0B; --ink:#F3F1EC; --muted:#A9A29A;
-    --rule:#1C1A17; --rule-strong:#2A2724;
-    --gold:#D8862A; --gold-shine:#E8A54F;
-    --link:#E0A758;
-    --yes:#6FC49A; --no:#FF7A68;
+    --paper:#000000; --card:#0D0C0B; --ink:#F6F4EF; --muted:#C2BBB1;
+    --rule:#221F1B; --rule-strong:#332F2A;
+    --gold:#E09443; --gold-shine:#F0B366;
+    --link:#E8B36A;
+    --yes:#7FD0A8; --no:#FF8A78;
     --shadow:0 1px 2px rgba(0,0,0,.7), 0 10px 34px rgba(0,0,0,.55);
   }
 }
 :root[data-theme="dark"]{
-  --paper:#000000; --card:#0B0B0B; --ink:#F3F1EC; --muted:#A9A29A;
+  --paper:#000000; --card:#0D0C0B; --ink:#F6F4EF; --muted:#C2BBB1;
   --rule:#1C1A17; --rule-strong:#2A2724;
   --gold:#D8862A; --gold-shine:#E8A54F;
   --link:#E0A758;
@@ -69,14 +69,23 @@ html{-webkit-text-size-adjust:100%; scroll-behavior:smooth}
 body{
   margin:0; background:var(--paper); color:var(--ink);
   font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
-  font-size:17.5px; line-height:1.72; letter-spacing:-.003em;
+  font-size:18px; line-height:1.76; letter-spacing:-.002em;
   -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
   font-feature-settings:"kern" 1, "liga" 1, "cv05" 1;
 }
 .wrap{max-width:960px; margin:0 auto; padding:0 24px}
 a{color:var(--link); text-decoration:none; border-bottom:1px solid transparent}
 a:hover{border-bottom-color:currentColor}
-h1,h2,h3{font-family:'Bodoni Moda',Didot,'Playfair Display',Georgia,serif; font-weight:700; line-height:1.14; margin:0}
+/* PIN THE OPTICAL SIZE. Bodoni Moda is a Didone, and its whole character is
+   the contrast between thick stems and hairline thins. Left to scale
+   automatically the browser pushes opsz towards 96 at heading sizes, which is
+   correct for a poster and wrong on a screen - and actively bad on TRUE BLACK,
+   where a hairline stops being a thin line and starts being an intermittent
+   one. Pinning opsz low keeps the Didone voice with strokes that survive.
+   The hero is set a little higher because at 100px+ it can afford the
+   elegance. */
+h1,h2,h3{font-family:'Bodoni Moda',Didot,'Playfair Display',Georgia,serif; font-weight:700; line-height:1.16; margin:0;
+  font-optical-sizing:none; font-variation-settings:'opsz' 15}
 h2{font-size:clamp(28px,4.4vw,38px); letter-spacing:-.01em; margin:0 0 8px}
 h3{font-size:20px; margin:0 0 6px}
 p{margin:0 0 17px; max-width:72ch}
@@ -87,7 +96,7 @@ code{font-size:.86em; background:color-mix(in srgb, var(--ink) 7%, transparent);
 kbd{font-size:.78em; border:1px solid var(--rule-strong); border-bottom-width:2px; border-radius:5px; padding:.12em .45em; background:var(--card); white-space:nowrap}
 .sec{padding:68px 0; border-top:1px solid var(--rule)}
 .eyebrow{font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); margin:0 0 12px}
-.lede{font-size:19px; color:var(--muted); max-width:66ch}
+.lede{font-size:19.5px; line-height:1.68; color:var(--muted); max-width:64ch}
 .skip{position:absolute; left:-9999px}
 .skip:focus{left:8px; top:8px; background:var(--card); padding:10px 14px; border-radius:8px; z-index:50}
 
@@ -95,7 +104,7 @@ kbd{font-size:.78em; border:1px solid var(--rule-strong); border-bottom-width:2p
 nav{position:sticky; top:0; z-index:20; backdrop-filter:saturate(180%) blur(12px);
     background:color-mix(in srgb, var(--paper) 86%, transparent); border-bottom:1px solid var(--rule)}
 nav .wrap{display:flex; align-items:center; gap:20px; height:58px}
-.brand{font-family:'Bodoni Moda',serif; font-weight:700; font-size:21px; letter-spacing:.15em; color:var(--ink)}
+.brand{font-family:'Bodoni Moda',serif; font-weight:700; font-size:21px; letter-spacing:.15em; color:var(--ink); font-optical-sizing:none; font-variation-settings:'opsz' 11}
 nav a.n{color:var(--muted); font-size:14.5px; font-weight:500; border:0; white-space:nowrap}
 nav a.n:hover{color:var(--ink)}
 .navlinks{display:flex; gap:20px; overflow-x:auto; scrollbar-width:none}
@@ -107,7 +116,8 @@ nav a.n:hover{color:var(--ink)}
 
 /* ----------------------------------------------------------------- hero -- */
 header.hero{padding:72px 0 8px}
-.hero h1{font-size:clamp(56px,12vw,112px); line-height:.92; letter-spacing:.06em; margin:0}
+.hero h1{font-size:clamp(56px,12vw,112px); line-height:.92; letter-spacing:.06em; margin:0;
+  font-variation-settings:'opsz' 30}
 .hero .tag{font-size:clamp(21px,3vw,27px); color:var(--ink); margin:20px 0 10px; max-width:20ch; font-weight:500}
 .hero .sub{color:var(--muted); max-width:60ch; font-size:18px}
 .rule-gold{width:104px; height:2px; background:var(--gold-shine); margin:22px 0}
@@ -163,7 +173,7 @@ td.v.no{color:var(--no)}
 .measure{display:grid; grid-template-columns:repeat(auto-fit,minmax(178px,1fr))}
 .measure div{padding:24px 22px; border-right:1px solid var(--rule)}
 .measure div:last-child{border-right:0}
-.measure .n{font-family:'Bodoni Moda',serif; font-size:40px; line-height:1; color:var(--gold)}
+.measure .n{font-family:'Bodoni Moda',serif; font-size:40px; line-height:1; color:var(--gold); font-optical-sizing:none; font-variation-settings:'opsz' 14}
 .measure .l{font-size:13.5px; color:var(--muted); margin-top:8px}
 
 
@@ -175,7 +185,7 @@ td.v.no{color:var(--no)}
 .colophon p{font-size:14.5px; color:var(--muted); margin:0 0 10px; max-width:none}
 .colophon p:last-child{margin-bottom:0}
 .face{font-size:19px; color:var(--ink); display:block; margin-bottom:2px}
-.face.serif{font-family:'Bodoni Moda',serif; font-weight:700; letter-spacing:.04em}
+.face.serif{font-family:'Bodoni Moda',serif; font-weight:700; letter-spacing:.04em; font-optical-sizing:none; font-variation-settings:'opsz' 14}
 .face.sans{font-family:'Inter',sans-serif; font-weight:600}
 .face.mono{font-family:'JetBrains Mono',monospace; font-weight:500; font-size:17px}
 .swatches{display:flex; gap:9px; margin:0 0 12px; flex-wrap:wrap}
@@ -463,7 +473,9 @@ footer .row{display:flex; flex-wrap:wrap; gap:16px 28px; align-items:baseline}
     <h2>Captured from the device</h2>
     <p class="lede" style="margin-bottom:30px">
       Taken over the RPC session at 4×, in the panel’s own two colours. Nothing
-      here was drawn.
+      here was drawn. These are the screens the five modes above do not
+      already show — the quiet states, the ones you only meet when there is
+      nothing to find, and the key map.
     </p>
 
     <div class="shots">
@@ -480,20 +492,12 @@ footer .row{display:flex; flex-wrap:wrap; gap:16px 28px; align-items:baseline}
         <figcaption class="cap">Sweep — listening</figcaption>
       </figure>
       <figure class="screen" style="margin:0">
-        <img src="shots/sweep_reader.png" alt="Sweep screen with a reader locked on" width="512" height="256" loading="lazy">
-        <figcaption class="cap">Sweep — locked on</figcaption>
-      </figure>
-      <figure class="screen" style="margin:0">
-        <img src="shots/fingerprint_reader.png" alt="Fingerprint screen with a polling reader" width="512" height="256" loading="lazy">
-        <figcaption class="cap">Fingerprint — a call</figcaption>
+        <img src="shots/fingerprint.png" alt="Fingerprint screen with no carrier present: NO FIELD, no confidence bar" width="512" height="256" loading="lazy">
+        <figcaption class="cap">Fingerprint — nothing there</figcaption>
       </figure>
       <figure class="screen" style="margin:0">
         <img src="shots/survey_run.png" alt="Site Survey running, with progress bar and live waveform" width="512" height="256" loading="lazy">
         <figcaption class="cap">Site Survey — walking</figcaption>
-      </figure>
-      <figure class="screen" style="margin:0">
-        <img src="shots/survey_done.png" alt="Site Survey verdict card" width="512" height="256" loading="lazy">
-        <figcaption class="cap">Site Survey — verdict</figcaption>
       </figure>
       <figure class="screen" style="margin:0">
         <img src="shots/watch_quiet.png" alt="Watch mode quiet, counting up since the last contact" width="512" height="256" loading="lazy">
@@ -502,6 +506,10 @@ footer .row{display:flex; flex-wrap:wrap; gap:16px 28px; align-items:baseline}
       <figure class="screen" style="margin:0">
         <img src="shots/settings.png" alt="Settings list: sensitivity, survey time, sound, vibrate" width="512" height="256" loading="lazy">
         <figcaption class="cap">Settings</figcaption>
+      </figure>
+      <figure class="screen" style="margin:0">
+        <img src="shots/about.png" alt="Help and About screen with the full key map" width="512" height="256" loading="lazy">
+        <figcaption class="cap">Help &amp; About — the key map</figcaption>
       </figure>
     </div>
   </div>
