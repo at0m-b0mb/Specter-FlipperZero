@@ -12,7 +12,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,500;6..96,700&family=Jost:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,500;6..96,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 /* ---------------------------------------------------------------- tokens --
    BACKLIGHT, the same system the banner is drawn in. Two rules carry over
@@ -60,11 +60,18 @@
 
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%; scroll-behavior:smooth}
+/* A serif for identity and figures, a NEUTRAL sans for everything you have to
+   read, a mono for measured values. Inter rather than a geometric face: a
+   Futura-like sans is right on a banner and wrong in a paragraph - the closed
+   apertures and near-circular bowls that make it elegant at 100px are exactly
+   what slow you down at 17. The Didone carries Specter's identity instead,
+   which is where it belongs and where the print branding already puts it. */
 body{
   margin:0; background:var(--paper); color:var(--ink);
-  font-family:'Jost',system-ui,-apple-system,'Segoe UI',sans-serif;
-  font-size:17px; line-height:1.68; letter-spacing:.002em;
-  -webkit-font-smoothing:antialiased;
+  font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  font-size:17.5px; line-height:1.72; letter-spacing:-.003em;
+  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  font-feature-settings:"kern" 1, "liga" 1, "cv05" 1;
 }
 .wrap{max-width:960px; margin:0 auto; padding:0 24px}
 a{color:var(--link); text-decoration:none; border-bottom:1px solid transparent}
@@ -72,15 +79,15 @@ a:hover{border-bottom-color:currentColor}
 h1,h2,h3{font-family:'Bodoni Moda',Didot,'Playfair Display',Georgia,serif; font-weight:700; line-height:1.14; margin:0}
 h2{font-size:clamp(28px,4.4vw,38px); letter-spacing:-.01em; margin:0 0 8px}
 h3{font-size:20px; margin:0 0 6px}
-p{margin:0 0 16px}
+p{margin:0 0 17px; max-width:72ch}
 ul{margin:0 0 16px; padding-left:20px}
-li{margin:0 0 7px}
+li{margin:0 0 9px; max-width:72ch}
 code,kbd{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace}
 code{font-size:.86em; background:color-mix(in srgb, var(--ink) 7%, transparent); padding:.14em .4em; border-radius:4px}
 kbd{font-size:.78em; border:1px solid var(--rule-strong); border-bottom-width:2px; border-radius:5px; padding:.12em .45em; background:var(--card); white-space:nowrap}
 .sec{padding:68px 0; border-top:1px solid var(--rule)}
 .eyebrow{font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); margin:0 0 12px}
-.lede{font-size:19px; color:var(--muted); max-width:64ch}
+.lede{font-size:19px; color:var(--muted); max-width:66ch}
 .skip{position:absolute; left:-9999px}
 .skip:focus{left:8px; top:8px; background:var(--card); padding:10px 14px; border-radius:8px; z-index:50}
 
@@ -88,8 +95,8 @@ kbd{font-size:.78em; border:1px solid var(--rule-strong); border-bottom-width:2p
 nav{position:sticky; top:0; z-index:20; backdrop-filter:saturate(180%) blur(12px);
     background:color-mix(in srgb, var(--paper) 86%, transparent); border-bottom:1px solid var(--rule)}
 nav .wrap{display:flex; align-items:center; gap:20px; height:58px}
-.brand{font-family:'Bodoni Moda',serif; font-weight:700; font-size:20px; letter-spacing:.14em; color:var(--ink)}
-nav a.n{color:var(--muted); font-size:14px; border:0; white-space:nowrap}
+.brand{font-family:'Bodoni Moda',serif; font-weight:700; font-size:21px; letter-spacing:.15em; color:var(--ink)}
+nav a.n{color:var(--muted); font-size:14.5px; font-weight:500; border:0; white-space:nowrap}
 nav a.n:hover{color:var(--ink)}
 .navlinks{display:flex; gap:20px; overflow-x:auto; scrollbar-width:none}
 .navlinks::-webkit-scrollbar{display:none}
@@ -102,7 +109,7 @@ nav a.n:hover{color:var(--ink)}
 header.hero{padding:72px 0 8px}
 .hero h1{font-size:clamp(56px,12vw,112px); line-height:.92; letter-spacing:.06em; margin:0}
 .hero .tag{font-size:clamp(21px,3vw,27px); color:var(--ink); margin:20px 0 10px; max-width:20ch; font-weight:500}
-.hero .sub{color:var(--muted); max-width:58ch}
+.hero .sub{color:var(--muted); max-width:60ch; font-size:18px}
 .rule-gold{width:104px; height:2px; background:var(--gold-shine); margin:22px 0}
 .cta{display:flex; flex-wrap:wrap; gap:12px; margin-top:28px}
 .btn{display:inline-flex; flex-direction:column; padding:11px 19px; border-radius:10px;
@@ -134,14 +141,14 @@ header.hero{padding:72px 0 8px}
 .mode:nth-child(even) .mtext{order:2}
 .mode:nth-child(even) .screen{order:1}
 .mode h3{font-size:22px}
-.mode p{margin:0 0 10px; color:var(--muted); font-size:15.5px}
+.mode p{margin:0 0 11px; color:var(--muted); font-size:16px; line-height:1.66}
 .mode .keys{font-size:13px; color:var(--muted)}
 .mode .keys kbd{margin-right:3px}
 
 /* --------------------------------------------------------------- tables -- */
 .card{background:var(--card); border:1px solid var(--rule); border-radius:14px; box-shadow:var(--shadow); overflow:hidden}
-table{width:100%; border-collapse:collapse; font-size:15px}
-th,td{padding:14px 18px; text-align:left; border-bottom:1px solid var(--rule); vertical-align:top}
+table{width:100%; border-collapse:collapse; font-size:15.5px}
+th,td{padding:15px 18px; text-align:left; border-bottom:1px solid var(--rule); vertical-align:top; line-height:1.6}
 thead th{font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--muted); font-weight:500}
 tbody tr:last-child td{border-bottom:0}
 td.v{white-space:nowrap; font-weight:600}
@@ -158,6 +165,22 @@ td.v.no{color:var(--no)}
 .measure div:last-child{border-right:0}
 .measure .n{font-family:'Bodoni Moda',serif; font-size:40px; line-height:1; color:var(--gold)}
 .measure .l{font-size:13.5px; color:var(--muted); margin-top:8px}
+
+
+/* ------------------------------------------------------------ colophon -- */
+.colophon{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:0}
+.colophon > div{padding:24px 24px; border-right:1px solid var(--rule)}
+.colophon > div:last-child{border-right:0}
+.colophon h3{font-size:16px; margin:0 0 10px}
+.colophon p{font-size:14.5px; color:var(--muted); margin:0 0 10px; max-width:none}
+.colophon p:last-child{margin-bottom:0}
+.face{font-size:19px; color:var(--ink); display:block; margin-bottom:2px}
+.face.serif{font-family:'Bodoni Moda',serif; font-weight:700; letter-spacing:.04em}
+.face.sans{font-family:'Inter',sans-serif; font-weight:600}
+.face.mono{font-family:'JetBrains Mono',monospace; font-weight:500; font-size:17px}
+.swatches{display:flex; gap:9px; margin:0 0 12px; flex-wrap:wrap}
+.sw{width:30px; height:30px; border-radius:6px; border:1px solid var(--rule-strong)}
+.sw span{position:absolute; left:-9999px}
 
 /* -------------------------------------------------------------- footer --- */
 footer{border-top:1px solid var(--rule); padding:46px 0 64px; color:var(--muted); font-size:14px}
@@ -185,6 +208,7 @@ footer .row{display:flex; flex-wrap:wrap; gap:16px 28px; align-items:baseline}
       <a class="n" href="#modes">Modes</a>
       <a class="n" href="#screens">Screens</a>
       <a class="n" href="#install">Install</a>
+      <a class="n" href="#colophon">Colophon</a>
     </div>
     <span class="spacer"></span>
     <button class="themebtn" id="themebtn" type="button">Theme</button>
@@ -511,6 +535,55 @@ footer .row{display:flex; flex-wrap:wrap; gap:16px 28px; align-items:baseline}
       or build it yourself:
     </p>
     <p><code>ufbt</code> in the repository root produces <code>dist/specter.fap</code>.</p>
+  </div>
+</section>
+
+
+<section class="sec" id="colophon">
+  <div class="wrap">
+    <p class="eyebrow">Colophon</p>
+    <h2>How it is put together</h2>
+    <p class="lede" style="margin-bottom:30px">
+      Specter’s print identity and this page are one system, called
+      <strong>BACKLIGHT</strong>. The Flipper’s backlight orange and the house
+      gold sit about fifteen degrees apart on the same hue wheel, so they are
+      treated as one ramp read from opposite ends: more ink is more signal on
+      paper, more light is more signal on black.
+    </p>
+
+    <div class="card colophon">
+      <div>
+        <h3>Type</h3>
+        <p><span class="face serif">Bodoni Moda</span> Identity and figures. Instrument nameplates — galvanometers, theodolites — were engraved in Didone, and the printed banner is set in Didot.</p>
+        <p><span class="face sans">Inter</span> Everything you actually have to read. Neutral on purpose: the display face is elegant at 100px and tiring at 17.</p>
+        <p><span class="face mono">JetBrains Mono</span> Anything the device measured, and anything you would type.</p>
+      </div>
+      <div>
+        <h3>Colour</h3>
+        <div class="swatches">
+          <span class="sw" style="background:#F3F1EC" title="Paper #F3F1EC"></span>
+          <span class="sw" style="background:#16130D" title="Ink #16130D"></span>
+          <span class="sw" style="background:#8A6714" title="Brass #8A6714"></span>
+          <span class="sw" style="background:#B07D22" title="Shine #B07D22"></span>
+          <span class="sw" style="background:#FE8A2C" title="Ember #FE8A2C — device only"></span>
+        </div>
+        <p>Paper, ink, and <em>two</em> golds — a deep brass that stays readable as small text, and a brighter one for marks that carry no words. One gold cannot do both jobs.</p>
+        <p>Dark mode is true black, the colour Specter’s own stealth mode leaves you with. Never navy.</p>
+      </div>
+      <div>
+        <h3>Two rules</h3>
+        <p><strong>The orange quarantine.</strong> <code>#FE8A2C</code> is the colour the device emits, and nothing here paints it. Every orange pixel on this page and on the banner is inside a real screen capture — sampled, never chosen.</p>
+        <p><strong>The accent means one thing.</strong> Gold marks measurement and nothing else: not a link, not a button, not a border, not a heading. There is exactly one gold object on the banner, and it is 128 columns of recorded carrier.</p>
+      </div>
+    </div>
+
+    <p class="note" style="margin-top:28px">
+      The banner’s waveform is not a graphic. It is the 13.56&nbsp;MHz carrier of
+      a real polling reader, read back column by column out of the Fingerprint
+      capture beside it. Its duty measures 26% where the device’s own counter
+      printed 28%, and both numbers are printed on the banner. The renderer
+      asserts they agree and refuses to build if they drift.
+    </p>
   </div>
 </section>
 
